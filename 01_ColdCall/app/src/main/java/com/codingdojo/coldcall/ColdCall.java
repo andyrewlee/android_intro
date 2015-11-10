@@ -7,13 +7,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class ColdCall extends AppCompatActivity {
     private Button coldCallButton;
     private TextView coldCalledTextView;
-    private List<String> students = new ArrayList<>();
+    private ArrayList<String> students = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

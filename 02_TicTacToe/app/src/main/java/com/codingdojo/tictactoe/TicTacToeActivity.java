@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class TicTacToe extends AppCompatActivity {
+public class TicTacToeActivity extends AppCompatActivity {
 
     private static final String TAG = "TicTacToe";
 
@@ -46,5 +46,6 @@ public class TicTacToe extends AppCompatActivity {
                 Log.d(TAG, "8");
                 break;
         }
+
     }
 }
