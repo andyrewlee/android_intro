@@ -1,51 +1,63 @@
 package com.codingdojo.tictactoe;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class TicTacToeActivity extends AppCompatActivity {
 
-    private static final String TAG = "TicTacToe";
+    private static final String TAG = "TicTacToeActivity";
+    private TicTacToeGame tictactoe;
+    private TextView declareWinnerTextView;
+    private Button resetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe);
+        declareWinnerTextView = (TextView) findViewById(R.id.declareWinner);
+        resetButton = (Button) findViewById(R.id.reset);
+        tictactoe = new TicTacToeGame();
+
+        updateUI();
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tictactoe.resetGame();
+                updateUI();
+            }
+        });
+    }
+
+    private void updateUI() {
+        int[] gameBoard = tictactoe.getGameBoard();
+        for(int i = 0; i < gameBoard.length; i++) {
+            Button button = (Button) findViewById(R.id.gameboard).findViewWithTag("" + i);
+            if(gameBoard[i] == 1) {
+                button.setBackgroundColor(Color.RED);
+            } else if(gameBoard[i] == 2) {
+                button.setBackgroundColor(Color.BLUE);
+            } else {
+                button.setBackgroundColor(Color.LTGRAY);
+            }
+        }
+        if(tictactoe.getWinner() != "") {
+            declareWinnerTextView.setText(tictactoe.getWinner() + " wins");
+        } else {
+            declareWinnerTextView.setText("");
+        }
     }
 
     public void gameButtonPressed(View button) {
-        switch(button.getId()) {
-            case R.id.button0:
-                Log.d(TAG, "0");
-                break;
-            case R.id.button1:
-                Log.d(TAG, "1");
-                break;
-            case R.id.button2:
-                Log.d(TAG, "2");
-                break;
-            case R.id.button3:
-                Log.d(TAG, "3");
-                break;
-            case R.id.button4:
-                Log.d(TAG, "4");
-                break;
-            case R.id.button5:
-                Log.d(TAG, "5");
-                break;
-            case R.id.button6:
-                Log.d(TAG, "6");
-                break;
-            case R.id.button7:
-                Log.d(TAG, "7");
-                break;
-            case R.id.button8:
-                Log.d(TAG, "8");
-                break;
-        }
-
+        String tag = button.getTag().toString();
+        int boardIndex = Integer.parseInt(tag);
+        tictactoe.updateGameBoardAt(boardIndex, tictactoe.getCurrentTurn());
+        tictactoe.checkGame();
+        updateUI();
     }
 }
