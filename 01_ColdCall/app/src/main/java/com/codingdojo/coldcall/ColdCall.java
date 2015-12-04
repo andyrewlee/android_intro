@@ -7,11 +7,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ColdCall extends AppCompatActivity {
     private Button coldCallButton;
     private TextView coldCalledTextView;
-    private ArrayList<String> students = new ArrayList<>();
+    private List<String> students = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,7 @@ public class ColdCall extends AppCompatActivity {
         coldCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String student = findRandomStudent();
-                coldCalledTextView.setText(student);
+
             }
         });
     }
