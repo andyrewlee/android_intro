@@ -20,18 +20,7 @@ public class AndroidQuizActivity extends AppCompatActivity {
     private TextView questionTextView;
     private TextView scoreTextView;
 
-    private int currentQuestionIndex = 0;
-    private int score = 0;
-
-    private Question[] questions = new Question[] {
-            new Question("This OS was originally developed as a platform for digital cameras", true),
-            new Question("This OS is based on Linux", true),
-            new Question("Fragmentation is a big concern on this OS", true),
-            new Question("Languages used to build apps for this OS use either Swift or Objective-C", false),
-            new Question("This OS is currently naming its versions after desserts", true),
-            new Question("Xcode is the name of the IDE used to develop for this OS", false),
-            new Question("This OS features a cool animation if user repeatedly clicks the version number in About screen", true),
-    };
+    private QuestionBank questionBank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +34,17 @@ public class AndroidQuizActivity extends AppCompatActivity {
         questionTextView = (TextView) findViewById(R.id.question_text_view);
         scoreTextView = (TextView) findViewById(R.id.score_text_view);
 
+        questionBank = new QuestionBank();
+
         androidButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(questions[currentQuestionIndex].isAndroid()) {
+                if(questionBank.isCurrentQuestionAndroid()) {
                     Log.d(TAG, "Correct");
-                    score++;
+                    questionBank.correct();
                 } else {
                     Log.d(TAG, "Incorrect");
-                    score--;
+                    questionBank.incorrect();
                 }
                 updateUI();
             }
@@ -62,12 +53,12 @@ public class AndroidQuizActivity extends AppCompatActivity {
         iosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(questions[currentQuestionIndex].isAndroid()) {
+                if(questionBank.isCurrentQuestionAndroid()) {
                     Log.d(TAG, "Incorrect");
-                    score--;
+                    questionBank.incorrect();
                 } else {
                     Log.d(TAG, "Correct");
-                    score++;
+                    questionBank.correct();
                 }
                 updateUI();
             }
@@ -76,7 +67,6 @@ public class AndroidQuizActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
                 updateUI();
             }
         });
@@ -85,7 +75,8 @@ public class AndroidQuizActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        questionTextView.setText(questions[currentQuestionIndex].getQuestion());
-        scoreTextView.setText("" + score);
+        questionBank.nextQuestion();
+        questionTextView.setText(questionBank.getCurrentQuestion().getQuestion());
+        scoreTextView.setText("" + questionBank.getCurrentScore());
     }
 }
