@@ -24,6 +24,10 @@ public class NinjaGoldActivity extends AppCompatActivity {
 
     public void gameButtonPressed(View sender) {
         Button pressedButton = (Button) sender;
-        Log.d("gameButtonPressed", pressedButton.getText().toString());
+        String result = ninjaGoldGame.gameTurnWith(pressedButton.getText().toString());
+        String totalGold = ninjaGoldGame.getCurrentTotalGold();
+
+        recentActivityTextView.setText(result);
+        totalGoldTextView.setText(totalGold);
     }
 }
